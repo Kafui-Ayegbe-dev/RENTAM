@@ -5,6 +5,8 @@ import Products from '../components/Products'
 import Newsletter from '../components/Newsletter'
 import Footer from '../components/Footer'
 import { mobile } from "../responsive";
+import { useLocation } from 'react-router-dom'
+import { useState } from 'react'
 
 
 const Container = styled.div`
@@ -51,53 +53,68 @@ const OptionNoSelect = styled.option`
 `
 
 const ProductList = () => {
-  return (
-    <Container>
-        <Navbar />
-        <Announcement />
-        <Title>Cars </Title>
-        <FilterContainer>
-            <Filter>
-                <FilterText>Filter Cars:</FilterText>
-                <Select>
-                    <OptionNoSelect disabled selected>
-                        Colour
-                    </OptionNoSelect>
-                    <Option>Red</Option>
-                    <Option>Blue</Option>
-                    <Option>Green</Option>
-                    <Option>Tan</Option>
-                    <Option>Pink</Option>
-                    <Option>Black</Option>
-                </Select>
-                <Select>
-                    <OptionNoSelect disabled selected>
-                        Size
-                    </OptionNoSelect>
-                    <Option>XS</Option>
-                    <Option>S</Option>
-                    <Option>M</Option>
-                    <Option>L</Option>
-                    <Option>XL</Option>
-                    <Option>XXL</Option>
-                </Select>
-            </Filter>
-            <Filter>
-                <FilterText>Sort Cars:</FilterText>
-                <Select>
-                    <Option selected>
-                        Newest
-                    </Option>
-                    <Option>Price (asc)</Option>
-                    <Option>Price (dec)</Option>
-                </Select>
-            </Filter>
-        </FilterContainer>
-        <Products />
-        <Newsletter />
-        <Footer />
-    </Container>
-  )
+    const location = useLocation();
+    const cat = location.pathname.split('/')[2];
+    const [filters, setFilters] = useState({})
+    const [sort, setSort] = useState("newest")
+
+    const handleFilters = (e) =>{
+        const value = e.target.value;
+        setFilters({
+            ...filters,
+            [e.target.name]: value
+        })
+        
+    }
+
+
+    return (
+        <Container>
+            <Navbar />
+            <Announcement />
+            <Title>All Clothes </Title>
+            <FilterContainer>
+                <Filter>
+                    <FilterText>Filter Styles:</FilterText>
+                    <Select name="colour" onChange={handleFilters}>
+                        <Option>
+                            Colour
+                        </Option>
+                        <Option>Red</Option>
+                        <Option>Blue</Option>
+                        <Option>Green</Option>
+                        <Option>Tan</Option>
+                        <Option>Pink</Option>
+                        <Option>Black</Option>
+                    </Select>
+                    <Select name="size" onChange={handleFilters}>
+                        <Option>
+                            Size
+                        </Option>
+                        <Option>XS</Option>
+                        <Option>S</Option>
+                        <Option>M</Option>
+                        <Option>L</Option>
+                        <Option>XL</Option>
+                        <Option>XXL</Option>
+                    </Select>
+                </Filter>
+                <Filter>
+                    <FilterText>Sort Clothes:</FilterText>
+                    <Select name="sort" onChange={(e)=>setSort(e.target.value)}>
+                        <Option value={"newest"}>
+                            Newest
+                        </Option>
+                        <Option value={"asc"}>Price (asc)</Option>
+                        <Option value={"desc"}>Price (dec)</Option>
+                    </Select>
+                </Filter>
+            </FilterContainer>
+            <Products cat={cat} filters={filters} sort={sort} />
+            <Newsletter />
+            <Footer />
+        </Container>
+    )
 }
 
 export default ProductList
