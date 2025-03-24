@@ -1,6 +1,6 @@
-import slideImg1 from './images/slideImg1.jpg'
-import slideImg2 from './images/slideImg2.jpg'
-import slideImg3 from './images/slideImg3.jpg'
+import slideImg1 from './images/homeslide1.jpeg'
+import slideImg2 from './images/homeslide2.webp'
+import slideImg3 from './images/homeslide3.jpeg'
 
 export const sliderItems = [
     {

@@ -61,25 +61,25 @@ const ProductList = () => {
                 <FilterText>Filter Cars:</FilterText>
                 <Select>
                     <OptionNoSelect disabled selected>
-                        Brand
-                    </OptionNoSelect>
-                    <Option>Toyota</Option>
-                    <Option>Mercedes</Option>
-                    <Option>Honda</Option>
-                    <Option>Volkswagon</Option>
-                    <Option>Tata</Option>
-                    <Option>Mazda</Option>
-                </Select>
-                <Select>
-                    <OptionNoSelect disabled selected>
                         Colour
                     </OptionNoSelect>
                     <Option>Red</Option>
-                    <Option>Orange</Option>
-                    <Option>Yellow</Option>
-                    <Option>Green</Option>
                     <Option>Blue</Option>
-                    <Option>Violet</Option>
+                    <Option>Green</Option>
+                    <Option>Tan</Option>
+                    <Option>Pink</Option>
+                    <Option>Black</Option>
+                </Select>
+                <Select>
+                    <OptionNoSelect disabled selected>
+                        Size
+                    </OptionNoSelect>
+                    <Option>XS</Option>
+                    <Option>S</Option>
+                    <Option>M</Option>
+                    <Option>L</Option>
+                    <Option>XL</Option>
+                    <Option>XXL</Option>
                 </Select>
             </Filter>
             <Filter>

@@ -128,12 +128,12 @@ const Product = () => {
         <Announcement />
         <Wrapper>
             <ImageContainer>
-                <Image src='https://i.ibb.co/56qMxwr/jean.jpg'/>
+                <Image src='https://images.pexels.com/photos/52518/jeans-pants-blue-shop-52518.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'/>
             </ImageContainer>
             <InfoContainer>
-                <Title>Title of Car</Title>
-                <Description>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore enim provident cum? Modi, porro quam.</Description>
-                <Price>GH₵ 20/day</Price>
+                <Title>Pair of jeans</Title>
+                <Description>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore enim provident cum? Modi, porro quam.Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore enim provident cum? Modi, porro quam.</Description>
+                <Price>GH₵ 20</Price>
                 <FilterContainer>
                     <Filter>
                         <FilterTitle>Color</FilterTitle>

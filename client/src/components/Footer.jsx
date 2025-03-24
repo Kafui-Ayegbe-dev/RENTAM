@@ -83,7 +83,7 @@ const Footer = () => {
   return (
     <Container>
         <Left>
-            <Logo>RentAM!</Logo>
+            <Logo>TADAA!</Logo>
             <Description>
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque modi quasi hic vel sapiente autem aspernatur eveniet accusamus .
             </Description>
