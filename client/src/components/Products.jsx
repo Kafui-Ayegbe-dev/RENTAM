@@ -3,6 +3,7 @@ import {popularProducts} from '../data'
 import Product from './Product'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import { Sort } from '@mui/icons-material'
 
 const Container = styled.div`
   padding: 20px;
@@ -19,8 +20,13 @@ const Products = ({cat, filters, sort}) => {
   useEffect(()=>{
     const getProducts = async ()=>{
       try{
-        const res = await axios.get("http://localhost:5000/api/products/allProducts");
-        console.log(res);
+        // get the category but if it doesnt exist just get all products
+        const res = await axios.get( 
+          cat ? `http://localhost:5000/api/products/allProducts?category=${cat}`
+          : "http://localhost:5000/api/products/allProducts"
+
+        );
+        setProducts(res.data)
       } catch(err){
 
       }
@@ -29,11 +35,43 @@ const Products = ({cat, filters, sort}) => {
     getProducts();
   }, [cat]);
 
+  useEffect(() => {
+    cat && setFilteredProducts(
+      products.filter(item=> Object.entries(filters).every(([key, value]) =>
+        item[key].includes(value)
+    
+      ))
+    )
+
+  }, [products,cat,filters]);
+
+
+  useEffect(()=>{
+    if(sort === "newest"){
+      setFilteredProducts(prev=>
+      [...prev].sort((a,b)=>a.createdAt - b.createdAt)
+      );
+    } else if ((sort === "asc")){
+      setFilteredProducts((prev)=>
+      [...prev].sort((a,b)=> a.price - b.price)
+      );
+    } else {
+      setFilteredProducts((prev)=>
+      [...prev].sort((a,b)=> b.price - a.price)
+      );
+    }
+  }, [sort])
+
+
+
   return (
     <Container>
-        {popularProducts.map(item =>(
-            <Product item={item} key={item.id}/>
-        ))}
+        {cat 
+        ? filteredProducts.map((item) => <Product item={item} key={item.id}/>)
+        : products
+            .slice(0,8)
+            .map((item) => <Product item={item} key={item.id}/>
+        )}
     </Container>
   )
 }
