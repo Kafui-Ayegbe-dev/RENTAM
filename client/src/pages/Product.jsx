@@ -5,6 +5,14 @@ import Newsletter from '../components/Newsletter'
 import Footer from '../components/Footer'
 import { Add, Remove } from '@mui/icons-material'
 import { mobile } from "../responsive";
+import { useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { publicRequest } from "../requestMethods";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../redux/cartRedux";
+
+
+
 
 
 const Container = styled.div`
@@ -122,6 +130,38 @@ const Button = styled.button`
 `
 
 const Product = () => {
+    const location = useLocation();
+    const id = location.pathname.split("/")[2];
+    const [product, setProduct] = useState({});
+    const [quantity, setQuantity] = useState(1);
+    const [color, setColor] = useState("");
+    const [size, setSize] = useState("");
+    const dispatch = useDispatch();
+
+
+    useEffect(() => {
+        const getProduct = async () => {
+          try {
+            const res = await publicRequest.get("/products/find/" + id);
+            setProduct(res.data);
+          } catch {}
+        };
+        getProduct();
+    }, [id]);
+
+    const handleQuantity = (type) => {
+        if (type === "dec") {
+            quantity > 1 && setQuantity(quantity - 1);
+        } else {
+            setQuantity(quantity + 1);
+        }
+    };
+
+    const handleClick = () => {
+        dispatch(
+            addProduct({ ...product, quantity, color, size })
+        );
+    };
     
   return (
     <Container>
@@ -129,35 +169,35 @@ const Product = () => {
         <Announcement />
         <Wrapper>
             <ImageContainer>
-                <Image src='https://images.pexels.com/photos/52518/jeans-pants-blue-shop-52518.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'/>
+                <Image src={product.img}/>
             </ImageContainer>
             <InfoContainer>
-                <Title>Pair of jeans</Title>
-                <Description>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore enim provident cum? Modi, porro quam.Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore enim provident cum? Modi, porro quam.</Description>
-                <Price>GH₵ 20</Price>
+                <Title>{product.title}</Title>
+                <Description>{product.desc}</Description>
+                <Price>$ {product.price}</Price>
                 <FilterContainer>
                     <Filter>
                         <FilterTitle>Color</FilterTitle>
-                        <FilterColor color='black'/>
-                        <FilterColor color='darkblue'/>
-                        <FilterColor color='red'/>
+                        {product.color?.map((c) => (
+                            <FilterColor color={c} key={c} onClick={() => setColor(c)} />
+                        ))}
                     </Filter>
                     <Filter>
                         <FilterTitle>Size</FilterTitle>
-                        <FilterSize>
-                            <FilterSizeOption>XS</FilterSizeOption>
-                            <FilterSizeOption>S</FilterSizeOption>
-                            <FilterSizeOption>M</FilterSizeOption>
-                        </FilterSize>
+                        <FilterSize onChange={(e) => setSize(e.target.value)}>
+                            {product.size?.map((s) => (
+                            <FilterSizeOption key={s}>{s}</FilterSizeOption>
+                            ))}
+                         </FilterSize>
                     </Filter>
                 </FilterContainer>
                 <AddContainer>
                     <AmountContainer>
-                        <Remove />
-                        <Amount>1</Amount>
-                        <Add />
+                        <Remove onClick={() => handleQuantity("dec")} />
+                        <Amount>{quantity}</Amount>
+                        <Add onClick={() => handleQuantity("inc")} />
                     </AmountContainer>
-                    <Button>ADD TO CART</Button>
+                    <Button onClick={handleClick}>ADD TO CART</Button>
                 </AddContainer>
             </InfoContainer>
         </Wrapper>
